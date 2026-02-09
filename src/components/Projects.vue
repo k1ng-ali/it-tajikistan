@@ -255,72 +255,97 @@ onUnmounted(() => {
         <div class="project-left">
           <h3>Dovtalab</h3>
           <p class="project-description">
-            Dovtalab — образовательная платформа для подготовки к экзаменам и закрепления знаний через практику: интерактивные викторины с реальными форматами заданий, прогресс и статистика попыток.
-            Телеграмный бот ежедневно приносит пользу более +750 абитуриентам.
+            <span class="highlight dovtalab">Dovtalab</span> — образовательная платформа для подготовки к экзаменам и закрепления знаний через практику: интерактивные викторины с реальными форматами заданий, прогресс и статистика попыток.
+            Телеграмный бот ежедневно приносит пользу более <span class="highlight dovtalab">+750</span> абитуриентам.
             Сейчас активно идёт разработка веб-приложения и ядра платформы (backend + база), чтобы всё работало стабильно и одинаково для всех клиентов.
           </p>
           <div class="buttons">
-            <a href="https://t.me/Dovtalabbot" target="_blank" class="btn">Открыть бот</a>
+            <a href="https://t.me/Dovtalabbot" target="_blank" class="btn">Перейти в бот</a>
             <a href="https://t.me/mmt_taj" target="_blank" class="btn">Сообщество</a>
           </div>
         </div>
 
         <div class="project-right glass">
           <div class="img-placeholder">
-            <span>Изображение проекта</span>
+            <img src="@/assets/projects/dovtalab.png" class="img">
           </div>
           <div class="stack">
+            <span>Aiogram</span>
             <span>Vue</span>
-            <span>GSAP</span>
-            <span>Vite</span>
-            <span>Node.js</span>
-            <span>MongoDB</span>
+            <span>PostgreSQL</span>
+            <span>FAST API</span>
           </div>
         </div>
       </div>
 
-      <div class="project">
+      <div class="project dcn">
         <div class="project-left">
-          <h3>Второй проект</h3>
+          <h3>DCN TJ</h3>
           <p class="project-description">
-            Это описание второго проекта. Здесь можно рассказать о технологиях, задачах и результатах.
-            Анимация будет плавно переключаться между проектами при скролле.
-            Каждый проект появляется и исчезает последовательно.
+            <span class="highlight dcn">DCN TJ</span> — сервис аренды серверов и хостинга, ориентированный на стабильность, безопасность и гибкость под реальные задачи бизнеса и разработчиков.
+            Проект предоставляет <span class="highlight dcn">VPS/VDS</span>, выделенные серверы и хостинг-решения с прозрачной конфигурацией, высокой доступностью и технической поддержкой.
+            Особое внимание уделено инфраструктуре, мониторингу и автоматизации, чтобы клиенты получали надёжный сервис без лишней сложности.
           </p>
           <div class="buttons">
-            <a href="#" target="_blank" class="btn">Открыть</a>
-            <a href="#" target="_blank" class="btn">GitHub</a>
+            <a href="https://dcn.tj/w/" target="_blank" class="btn">Посетить сайт</a>
+            <a href="https://t.me/DCN_TJ" target="_blank" class="btn">Телеграм канал</a>
           </div>
         </div>
 
         <div class="project-right glass">
           <div class="img-placeholder">
-            <span>Изображение проекта 2</span>
+            <img src="@/assets/projects/dcn.png" class="img">
           </div>
           <div class="stack">
-            <span>React</span>
-            <span>TypeScript</span>
-            <span>Next.js</span>
+            <span>VPS/VDS</span>
+            <span>CI/CD</span>
+            <span>Nginx</span>
+            <span>Apachi</span>
           </div>
         </div>
       </div>
 
       <div class="project">
         <div class="project-left">
-          <h3>Третий проект</h3>
+          <h3>Trasher Bot</h3>
           <p class="project-description">
-            Описание третьего проекта. Последний проект останется на экране и не будет исчезать.
-            Это позволяет пользователю взаимодействовать с ссылками и изучить детали.
+            <span class="highlight trasher">Trasher Bot</span> — интеллектуальный анти-спам бот для Telegram, предназначенный для автоматической защиты групп и чатов от нежелательного контента.
+            Бот в реальном времени обнаруживает и удаляет спам, рекламу, нецензурные выражения, вредоносные ссылки и подозрительные файлы, снижая нагрузку на администраторов.
+            Гибкие настройки позволяют адаптировать работу бота под правила конкретного сообщества, обеспечивая чистую, безопасную и комфортную среду общения.
           </p>
           <div class="buttons">
-            <a href="#" target="_blank" class="btn">Демо</a>
-            <a href="#" target="_blank" class="btn">Подробнее</a>
+            <a href="https://t.me/TrashDel_bot" target="_blank" class="btn">Перейти в бот</a>
+            <a href="https://t.me/trasherbot_official" target="_blank" class="btn">Канал</a>
           </div>
         </div>
 
         <div class="project-right glass">
           <div class="img-placeholder">
-            <span>Изображение проекта 3</span>
+            <img src="@/assets/projects/Trasher.png" class="img">
+          </div>
+          <div class="stack">
+            <span>Python</span>
+            <span>Django</span>
+            <span>PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-left">
+          <h3>Zebo Navis</h3>
+          <p class="project-description">
+            <span class="highlight zebo">ZeboNavis</span> — Telegram userbot, который превращает текст в анимацию.
+            Позволяет добавлять визуальные эффекты и динамику в сообщения, делая общение более живым и нестандартным.
+          </p>
+          <div class="buttons">
+            <a href="https://t.me/zebonavisak_bot" target="_blank" class="btn">Перейти в бот</a>
+            <a href="https://t.me/otziv_zebo_navis" target="_blank" class="btn">Канал</a>
+          </div>
+        </div>
+
+        <div class="project-right glass">
+          <div class="img-placeholder">
+            <img src="@/assets/projects/Zebonavis.png" class="img">
           </div>
           <div class="stack">
             <span>Python</span>
@@ -493,6 +518,22 @@ onUnmounted(() => {
   }
 }
 
+.highlight {
+  &.dovtalab {
+    color: #FFC02D;
+  }
+  &.dcn {
+    color: #68D0FB;
+  }
+
+  &.trasher {
+    color: #04D8D0;
+  }
+  &.zebo {
+    color: #FB84D1;
+  }
+}
+
 .glass {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px) saturate(160%);
@@ -520,11 +561,18 @@ onUnmounted(() => {
   justify-content: center;
   color: rgba(255, 255, 255, 0.5);
   font-size: 1.2rem;
+  overflow: clip;
 
   @media (max-width: 768px) {
     height: 200px;
     font-size: 1rem;
   }
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .stack {

@@ -37,7 +37,8 @@ onMounted(() => {
     { selector: '.about', color: '#132716' },
     { selector: '.services', color: '#2d2d7e' },
     { selector: '.team', color: '#1b1b3a' },
-    { selector: '.quote', color: 'rgb(51,36,53)' }
+    { selector: '.quote', color: 'rgb(51,36,53)' },
+    { selector: '.projects', color: 'rgb(29,41,40)' },
   ]
 
   // Создаем анимацию смены цвета фона

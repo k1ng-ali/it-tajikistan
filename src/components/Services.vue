@@ -1,18 +1,149 @@
-<!-- Services.vue -->
+<!-- Services.vue - Optimized for Mobile -->
 <script setup>
 import {gsap} from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
-import {onMounted} from "vue";
+import {onMounted, onUnmounted} from "vue";
+
+let animations = [];
 
 onMounted(() => {
-  gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger);
 
-  // Плавное появление из предыдущей секции
-  gsap.fromTo(".services",
+  // Детект мобильного устройства
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // 🔥 МОБИЛЬНАЯ ВЕРСИЯ - легкие анимации без pin
+    initMobileAnimations();
+  } else {
+    // 💻 ДЕСКТОП - оригинальный вариант с pin
+    initDesktopAnimations();
+  }
+});
+
+onUnmounted(() => {
+  // Очистка всех анимаций
+  animations.forEach(anim => anim.kill());
+  ScrollTrigger.getAll().forEach(st => st.kill());
+});
+
+function initMobileAnimations() {
+  // Плавное появление секции
+  const appearAnim = gsap.fromTo(".services",
+      {opacity: 0, y: 30},
       {
-        opacity: 0,
-        y: 50
-      },
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".services",
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      }
+  );
+  animations.push(appearAnim);
+
+  // Заголовок с эффектом scale
+  const titleAnim = gsap.fromTo(".services-title",
+      {opacity: 0, scale: 0.9},
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        ease: "back.out(1.4)",
+        scrollTrigger: {
+          trigger: ".services",
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+  );
+  animations.push(titleAnim);
+
+  // Субтитл с задержкой
+  const subtitleAnim = gsap.fromTo(".services-subtitle",
+      {opacity: 0, y: 15},
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        delay: 0.2,
+        scrollTrigger: {
+          trigger: ".services",
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+  );
+  animations.push(subtitleAnim);
+
+  // Карточки - последовательное появление с эффектами
+  const cards = gsap.utils.toArray(".service");
+
+  cards.forEach((card, index) => {
+    const cardAnim = gsap.fromTo(card,
+        {
+          opacity: 0,
+          y: 40,
+          scale: 0.95,
+          filter: "blur(4px)"
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+    );
+    animations.push(cardAnim);
+
+    // Легкое изменение цвета при скролле
+    const colorAnim = gsap.to(card,
+        {
+          borderColor: "rgba(167, 251, 0, 0.4)",
+          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(167, 251, 0, 0.15)",
+          duration: 0.4,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 0.5
+          }
+        }
+    );
+    animations.push(colorAnim);
+  });
+
+  // Footer индикатор
+  const footerAnim = gsap.fromTo(".scroll-indicator",
+      {opacity: 0, y: 20},
+      {
+        opacity: 0.6,
+        y: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: ".services-footer",
+          start: "top 90%",
+          toggleActions: "play none none reverse"
+        }
+      }
+  );
+  animations.push(footerAnim);
+}
+
+function initDesktopAnimations() {
+  // Плавное появление из предыдущей секции
+  const appearAnim = gsap.fromTo(".services",
+      {opacity: 0, y: 50},
       {
         opacity: 1,
         y: 0,
@@ -22,18 +153,14 @@ onMounted(() => {
           trigger: ".services",
           start: "top 90%",
           end: "top 50%",
-
         }
       }
-  )
+  );
+  animations.push(appearAnim);
 
   // Появление заголовка
-  gsap.fromTo(".services-title",
-      {
-        opacity: 0,
-        scale: 0.8,
-        y: 30
-      },
+  const titleAnim = gsap.fromTo(".services-title",
+      {opacity: 0, scale: 0.8, y: 30},
       {
         opacity: 1,
         scale: 1,
@@ -47,7 +174,8 @@ onMounted(() => {
           scrub: 0.5
         }
       }
-  )
+  );
+  animations.push(titleAnim);
 
   // Пин секции и горизонтальный скролл
   const tl = gsap.timeline({
@@ -57,17 +185,16 @@ onMounted(() => {
       end: "+=300%",
       pin: true,
       anticipatePin: 1,
-      markers: false,
       scrub: 0.5,
-
-      onEnter: () => gsap.set(".services *", { willChange: "transform" }),
-      onLeave: () => gsap.set(".services *", { willChange: "auto" }),
-      onEnterBack: () => gsap.set(".services *", { willChange: "transform" })
+      onEnter: () => gsap.set(".services *", {willChange: "transform"}),
+      onLeave: () => gsap.set(".services *", {willChange: "auto"}),
+      onEnterBack: () => gsap.set(".services *", {willChange: "transform"})
     }
-  })
+  });
+  animations.push(tl);
 
   // Появление карточек одна за другой
-  const cards = gsap.utils.toArray(".service")
+  const cards = gsap.utils.toArray(".service");
 
   cards.forEach((card, index) => {
     gsap.set(card, {
@@ -75,7 +202,7 @@ onMounted(() => {
       x: 100,
       y: 40,
       scale: 0.95
-    })
+    });
 
     tl.to(card, {
       opacity: 1,
@@ -84,25 +211,24 @@ onMounted(() => {
       scale: 1,
       duration: 0.5,
       ease: "power2.out"
-    }, index * 0.15)
-  })
-
+    }, index * 0.15);
+  });
 
   // Горизонтальный скролл после появления всех карточек
   tl.to(".services-content", {
     x: () => {
-      const cardWidth = cards[0].offsetWidth
-      const gap = 100
-      return -(cardWidth + gap) * (cards.length - 1)
+      const cardWidth = cards[0].offsetWidth;
+      const gap = 100;
+      return -(cardWidth + gap) * (cards.length - 1);
     },
     ease: "none",
     duration: 1.5
-  }, "+=0.2")
-})
+  }, "+=0.2");
+}
 </script>
 
 <template>
-  <div class="services"  data-nav="services">
+  <div class="services" data-nav="services">
     <div class="services-header">
       <h1 class="services-title">
         Наши направления
@@ -222,6 +348,7 @@ onMounted(() => {
       0 0 0 1px rgba(167, 251, 0, 0.1);
   transform-origin: center bottom;
   will-change: transform, opacity;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
   .service-icon {
     font-size: 48px;
@@ -285,27 +412,86 @@ onMounted(() => {
   }
 }
 
+// 🔥 МОБИЛЬНАЯ ОПТИМИЗАЦИЯ - Grid вместо горизонтального скролла
 @media (max-width: 768px) {
   .services {
     padding: 40px 20px;
+    min-height: auto; // Убираем фиксированную высоту для мобилки
+    width: 92vw;
   }
 
   .services-header {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
   }
 
+  .services-container {
+    margin-bottom: 40px;
+    align-items: flex-start; // Выравнивание по верху
+    overflow: visible;
+  }
+
+  // Grid-сетка вместо горизонтального flex
   .services-content {
-    gap: 40px;
-    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr; // Одна колонка
+    gap: 30px;
+    padding: 0;
+    width: 100%;
+    overflow: visible;
 
     &:before, &:after {
-      flex: 0 0 20px;
+      display: none; // Убираем спейсеры
     }
   }
 
   .service {
-    width: 280px;
-    padding: 25px;
+    width: 90%; // Полная ширина
+    padding: 30px 25px;
+    // Улучшенная производительность для мобилки
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .service-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .service-desc {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .scroll-indicator {
+    span {
+      font-size: 12px;
+    }
+  }
+}
+
+// Очень маленькие экраны
+@media (max-width: 480px) {
+  .services {
+    padding: 30px 15px;
+  }
+
+  .services-header {
+    margin-bottom: 30px;
+  }
+
+  .services-content {
+    gap: 20px;
+  }
+
+  .service {
+    padding: 25px 20px;
+    border-radius: 20px;
 
     h3 {
       font-size: 22px;
