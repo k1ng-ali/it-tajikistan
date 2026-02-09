@@ -111,14 +111,23 @@ onMounted(() => {
       onEnter: () => {
         activeIndex.value = 0
         updateActiveCard(0)
+        gsap.set([".team", ".member"], {
+          willChange: "transform, opacity"
+        })
       },
       onLeaveBack: () => {
         activeIndex.value = 0
         updateActiveCard(0)
+        gsap.set([".team", ".member"], {
+          willChange: "auto"
+        })
       },
       onLeave: () => {
         activeIndex.value = cards.length
         updateActiveCard(1)
+        gsap.set([".team", ".member"], {
+          willChange: "transform, opacity"
+        })
       }
     }
   })
@@ -141,10 +150,11 @@ onMounted(() => {
     <div class="team-track">
       <div v-for="(member, index) in [
         {
-          name: ['САФИАЛЛОХ', 'АМИНЧОНЗОДА'],
+          name: ['SAFIALLOH', 'AMINJOBZODA'],
           role: 'Information Security & SMM',
           desc: 'Надёжная защита данных и цифровой инфраструктуры.',
           contact: '+992885788000',
+          photo: './team/safialloh.png',
           tg: {
             title:'𝐀𝐌𝐈𝐍𝐉𝐎𝐍𝐙𝐎𝐃𝐀 𝐒',
             link:'https://t.me/safiolloh332'
@@ -155,6 +165,7 @@ onMounted(() => {
           role: 'Automation engineer',
           desc: 'Telegram-боты, автоматизация и программные решения для бизнеса.',
           contact: '+992005550003',
+          photo: './team/shaxzod.png',
            tg: {
             title:'Shakhzod',
             link:'https://t.me/Shakhzod_oo3'
@@ -162,9 +173,10 @@ onMounted(() => {
         },
         {
           name: ['ФАРИДУН', 'КАСИМОВ'],
-          role: 'Servers & Hosting',
+          role: 'Servers & System administrator',
           desc: 'Серверы, домены и хостинг под любые требования и бюджеты.',
           contact: 'dcn.tj',
+          photo: './team/faridun.png',
           tg: {
             title:'𝓓𝓒𝓝',
             link:'https://t.me/dcntj'
@@ -175,6 +187,7 @@ onMounted(() => {
           role: 'Full-stack developer',
           desc: 'От идеи до рабочего продукта — архитектура, код и результат.',
           contact: 'im.ali@astanaqulov.ru',
+          photo: './team/mukhammadali.png',
           tg: {
             title:'Mukhammad Ali',
             link:'https://t.me/King_a1i',
@@ -184,7 +197,15 @@ onMounted(() => {
            :key="index"
            class="member"
            :class="{ 'active': index === activeIndex }">
-        <div class="img-placeholder"></div>
+        <div
+            v-if="member.photo"
+            class="member-photo"
+            :style="{ backgroundImage: `url(${member.photo})` }"
+        />
+        <div
+            v-else
+            class="img-placeholder"
+        />
         <h3 class="name" v-for="(namePart, i) in member.name" :key="i">
           {{ namePart }}
         </h3>
@@ -238,7 +259,7 @@ onMounted(() => {
 .team-title {
   text-align: center;
   font-size: clamp(48px, 6vw, 96px);
-  margin-bottom: 120px;
+  margin-bottom: 70px;
   flex-shrink: 0;
 }
 
@@ -275,7 +296,7 @@ onMounted(() => {
     opacity: 1;
     transform: scale(1);
 
-    background: rgba(50, 50, 50, 0.95);
+    background: rgba(50, 50, 50, 0.51);
     border-color: rgba(167, 251, 0, 0.3);
     box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.3),
@@ -308,6 +329,33 @@ onMounted(() => {
   }
 }
 
+.member-photo {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+
+  background-size: cover;
+  background-position: start;
+  background-repeat: no-repeat;
+
+  position: relative;
+  overflow: hidden;
+
+  /* лёгкий оверлей */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            180deg,
+            rgba(0,0,0,0.05),
+            rgba(0,0,0,0.25)
+    );
+  }
+}
+
+
 @keyframes shimmer {
   0% { left: -100%; }
   100% { left: 100%; }
@@ -317,10 +365,11 @@ onMounted(() => {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .member-text {
-  margin-top: 12px;
+  margin-top: 15px;
   line-height: 1.6;
   font-size: 15px;
 }
@@ -328,7 +377,7 @@ onMounted(() => {
 .highlight {
   color: #a7fb00;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   font-weight: 600;
 }
 
@@ -347,7 +396,7 @@ onMounted(() => {
   transition:background 0.2s ease-in-out;
   cursor: pointer;
   font-weight: bold;
-  direction: none;
+  text-decoration: none;
 
   &:hover {
     scale: 1.04;

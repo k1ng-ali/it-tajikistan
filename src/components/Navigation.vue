@@ -1,100 +1,116 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+
+const sections = ref([])
+const activeIndex = ref(0)
+let triggers = []
+
+const scrollTo = (el) => {
+  gsap.to(window, {
+    scrollTo: el,
+    duration: 1,
+    ease: 'power2.out'
+  })
+}
+
+onMounted(() => {
+  const nodes = gsap.utils.toArray('[data-nav]')
+
+  sections.value = nodes.map(el => ({
+    el,
+    label: el.dataset.nav
+  }))
+
+  triggers = sections.value.map((section, i) =>
+      ScrollTrigger.create({
+        trigger: section.el,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => (activeIndex.value = i),
+        onEnterBack: () => (activeIndex.value = i)
+      })
+  )
+})
+
+onUnmounted(() => {
+  triggers.forEach(t => t.kill())
+})
+</script>
+
 <template>
-  <nav class="nav-container">
-    <div class="bottom-bar">
-      <!-- Контейнер для делений -->
-      <div class="ticks-wrapper">
-        <div v-for="i in 30" :key="i" class="tick"></div>
-      </div>
-      <!-- Активный красный маркер -->
-      <div ref="markerRef" class="active-marker"></div>
+  <nav class="section-nav">
+    <div
+        v-for="(section, i) in sections"
+        :key="i"
+        class="nav-item"
+        :class="{ active: activeIndex === i }"
+        @click="scrollTo(section.el)"
+    >
+      <span class="label">{{ section.label }}</span>
     </div>
   </nav>
 </template>
 
-<script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const markerRef = ref(null);
-let ctx;
-
-onMounted(() => {
-  ctx = gsap.context(() => {
-    // Анимация маркера вдоль всей ширины контейнера
-    gsap.to(markerRef.value, {
-      // Используем x, а не xPercent для точного контроля
-      // Двигает маркер от начала до конца родителя (минус отступы)
-      x: () =>
-          markerRef.value.parentElement.clientWidth -
-          markerRef.value.offsetWidth - 15,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: document.body,
-        start: 'top top',
-        end:  () => document.documentElement.scrollHeight - window.innerHeight,
-        scrub: 0.5,
-      }
-    });
-  });
-});
-
-onUnmounted(() => {
-  if (ctx) ctx.revert();
-});
-</script>
-
-<style scoped>
-.nav-container {
+<style scoped lang="scss">
+.section-nav {
   position: fixed;
-  bottom: 40px;
-  left: 50px;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   z-index: 1000;
-  pointer-events: none;
 }
 
-.bottom-bar {
+.nav-item {
   position: relative;
-  width: 200px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-
-  /* Эффект стекла */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(15px) saturate(160%);
-  -webkit-backdrop-filter: blur(15px) saturate(160%);
-
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 7px; /* Сделаем форму капсулы */
-  box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.ticks-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between; /* Равномерно распределяем деления */
-  align-items: center;
-}
-
-.tick {
-  width: 1px;
-  height: 8px;
-  background: rgba(142, 142, 142, 0.75);
-  border-radius: 1px;
-}
-
-.active-marker {
-  position: absolute;
-  left: 8px; /* Стартовая позиция */
-  width: 3px;
-  height: 18px;
-  background: #ff3e3e;
+  width: 6px;
+  height: 28px;
   border-radius: 4px;
-  box-shadow: 0 0 6px rgb(255, 62, 62);
-  z-index: 2;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
+
+.nav-item:hover {
+  background: #a7fb00;
+  transform: scaleY(1.3);
+}
+
+.nav-item.active {
+  background: #a7fb00;
+  box-shadow: 0 0 10px rgba(167, 251, 0, 0.8);
+}
+
+.label {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  color: #fff;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:hover .label {
+  opacity: 1;
+  transform: translate(-6px, -50%);
+}
+
 </style>

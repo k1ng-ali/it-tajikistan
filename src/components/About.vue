@@ -26,20 +26,27 @@ onMounted(() => {
           start: "top 80%",
           end: "top 30%",
           scrub: 0.5,
-          markers: false
+          markers: false,
+
+          onEnter: () => {
+            gsap.set([".about", ".word", ".line", "..about-title"], {
+              willChange: "transform, opacity"
+            })
+          },
+          onLeave: () => {
+            gsap.set([".about", ".word", ".line", "..about-title"], {
+              willChange: "auto"
+            })
+          },
+          onEnterBack: () => {
+            gsap.set([".about", ".word", ".line", "..about-title"], {
+              willChange: "transform, opacity"
+            })
+          },
         }
       }
   )
 
-  // 2. Пин секции
-  const pinTrigger = ScrollTrigger.create({
-    trigger: ".about",
-    start: "top top",
-    end: "+=100%",
-    pin: true,
-    scrub: 1,
-    anticipatePin: 1
-  });
 
   // 3. Постепенное появление текста (связь со следующей секцией)
   const split = new SplitText(".about-text", {
@@ -57,7 +64,7 @@ onMounted(() => {
     scrollTrigger: {
       trigger: ".about",
       start: "top 40%",
-      end: "+=100%",
+      end: "+=50%",
       scrub: 0.5,
       toggleActions: "play none none reverse"
     }
@@ -86,7 +93,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="about" data-nav="about">
+  <div class="about"  data-nav="about">
     <div class="about-content">
       <h1 class="about-title">
         Кто мы такие
@@ -94,9 +101,9 @@ onMounted(() => {
       <div class="about-text-container">
         <p class="about-text">
           <span class="highlight">IT Tajikistan</span> — это не просто группа разработчиков.
-          <br><br>
+          <br>
           Мы объединились вокруг одной цели — создавать качественные, безопасные и современные IT-решения, которые реально работают и приносят пользу бизнесу.
-          <br><br>
+          <br>
           Каждый из нас отвечает за своё направление, поэтому клиенты получают комплексный подход, а не набор случайных услуг.
         </p>
       </div>

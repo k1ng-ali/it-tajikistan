@@ -22,7 +22,7 @@ onMounted(() => {
           trigger: ".services",
           start: "top 90%",
           end: "top 50%",
-          scrub: 0.5
+
         }
       }
   )
@@ -55,10 +55,14 @@ onMounted(() => {
       trigger: ".services",
       start: "top top",
       end: "+=300%",
-      scrub: 0.5,
       pin: true,
       anticipatePin: 1,
-      markers: false
+      markers: false,
+      scrub: 0.5,
+
+      onEnter: () => gsap.set(".services *", { willChange: "transform" }),
+      onLeave: () => gsap.set(".services *", { willChange: "auto" }),
+      onEnterBack: () => gsap.set(".services *", { willChange: "transform" })
     }
   })
 
@@ -66,41 +70,39 @@ onMounted(() => {
   const cards = gsap.utils.toArray(".service")
 
   cards.forEach((card, index) => {
-    // Начальное положение - немного внизу и справа
     gsap.set(card, {
       opacity: 0,
       x: 100,
-      y: 50,
-      scale: 0.9
+      y: 40,
+      scale: 0.95
     })
 
-    // Появление с задержкой
     tl.to(card, {
       opacity: 1,
       x: 0,
       y: 0,
       scale: 1,
-      duration: 0.6,
+      duration: 0.5,
       ease: "power2.out"
-    }, index * 0.2)
+    }, index * 0.15)
   })
+
 
   // Горизонтальный скролл после появления всех карточек
   tl.to(".services-content", {
     x: () => {
       const cardWidth = cards[0].offsetWidth
       const gap = 100
-      const totalWidth = (cardWidth + gap) * (cards.length - 1)
-      return `-${totalWidth}px`
+      return -(cardWidth + gap) * (cards.length - 1)
     },
     ease: "none",
-    duration: 2
-  }, "+=0.5")
+    duration: 1.5
+  }, "+=0.2")
 })
 </script>
 
 <template>
-  <div class="services" data-nav="services">
+  <div class="services"  data-nav="services">
     <div class="services-header">
       <h1 class="services-title">
         Наши направления
@@ -149,7 +151,7 @@ onMounted(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 60px 20px;
+  padding: 20px 0;
   position: relative;
   overflow: hidden;
 

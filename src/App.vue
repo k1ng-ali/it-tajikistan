@@ -7,10 +7,9 @@
   import About from "@/components/About.vue";
   import Services from "@/components/Services.vue";
   import Team from "@/components/Team.vue";
-  import OurJob from "@/components/OurJob.vue";
   import Quote from "@/components/Quote.vue";
   import Navigation from "@/components/Navigation.vue";
-  import ScrollToTop from "@/components/ScrollToTop.vue";
+  import Projects from "@/components/Projects.vue";
 
   onMounted(() => {
     ScrollSmoother.create({
@@ -32,8 +31,8 @@
       <About id="about"/>
       <Services id="services" />
       <Team id="team"/>
-      <OurJob id="our-job"/>
-      <Quote/>
+      <Quote id="quote"/>
+      <Projects id="projects" />
     </div>
   </div>
 </template>

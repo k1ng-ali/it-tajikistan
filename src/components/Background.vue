@@ -13,8 +13,8 @@ onMounted(() => {
     ease: 'none',
     scrollTrigger: {
       trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
+      start: 'top',
+      end: 'top',
       scrub: 0.5
     }
   })
@@ -26,7 +26,7 @@ onMounted(() => {
     scrollTrigger: {
       trigger: 'body',
       start: 'top top',
-      end: 'bottom bottom',
+      end: '+=100%',
       scrub: 1
     }
   })
@@ -34,42 +34,42 @@ onMounted(() => {
   // Определяем секции для смены цвета (адаптируем под ваш сайт)
   const sections = [
     { selector: '.hero', color: '#291d1a' },
-    { selector: '.about', color: '#131327' },
+    { selector: '.about', color: '#132716' },
     { selector: '.services', color: '#2d2d7e' },
     { selector: '.team', color: '#1b1b3a' },
-    { selector: '.contacts-title', color: '#0f0f1a' } // для контактов
+    { selector: '.quote', color: 'rgb(51,36,53)' }
   ]
 
   // Создаем анимацию смены цвета фона
-  const bgAnimation = gsap.timeline({
-    scrollTrigger: {
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 0.8,
-      markers: false
-    }
+  sections.forEach(section => {
+    ScrollTrigger.create({
+      trigger: section.selector,
+      start: 'top center',
+      end: 'bottom center',
+      onEnter: () => {
+        gsap.to('.layer-1', {
+          backgroundColor: section.color,
+          duration: 0.6,
+          ease: 'power2.out'
+        })
+      },
+      onEnterBack: () => {
+        gsap.to('.layer-1', {
+          backgroundColor: section.color,
+          duration: 0.6,
+          ease: 'power2.out'
+        })
+      }
+    })
   })
 
   // Добавляем ключевые точки для смены цвета
   sections.forEach((section, index) => {
     const progress = index / (sections.length - 1)
-
-    bgAnimation.to('.layer-1', {
-      backgroundColor: section.color,
-      duration: 0.5
-    }, progress)
-
-    // Меняем прозрачность градиентов для создания атмосферы
-    bgAnimation.to('.gradient-1', {
-      opacity: 0.3 + (index * 0.1),
-      duration: 0.5
-    }, progress)
-
-    bgAnimation.to('.gradient-2', {
-      opacity: 0.2 + (index * 0.05),
-      duration: 0.5
-    }, progress)
+    onEnter: () => {
+      gsap.to('.gradient-1', { opacity: 0.4, duration: 0.5 })
+      gsap.to('.gradient-2', { opacity: 0.25, duration: 0.5 })
+    }
   })
 })
 </script>
@@ -107,7 +107,6 @@ onMounted(() => {
   position: absolute;
   inset: 0;
   background: #0f0f1a; // Начальный цвет
-  transition: background-color 0.5s ease;
 }
 
 .gradient-1,
@@ -117,7 +116,6 @@ onMounted(() => {
   filter: blur(120px);
   mix-blend-mode: screen;
   opacity: 0.3;
-  transition: opacity 0.5s ease;
 }
 
 .gradient-1 {

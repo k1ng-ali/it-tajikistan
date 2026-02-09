@@ -14,7 +14,23 @@
         end: '+=200%',
         scrub: 1.5,
         pin: true,
-      }
+
+        onEnter: () => {
+          gsap.set([".hero", ".hero-title", ".content"], {
+            willChange: "transform, opacity, color, background"
+          })
+        },
+        onLeave: () => {
+          gsap.set([".hero", ".hero-title",  ".content"], {
+            willChange: "auto"
+          })
+        },
+        onEnterBack: () => {
+          gsap.set([".hero", ".hero-title",  ".content"], {
+            willChange: "transform, opacity, color, background"
+          })
+        },
+      },
     });
 
     tl.to(".hero", {
