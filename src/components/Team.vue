@@ -211,7 +211,7 @@ function initDesktopAnimations() {
     <div class="team-track">
       <div v-for="(member, index) in [
         {
-          name: ['SAFIALLOH', 'AMINJOBZODA'],
+          name: ['SAFIALLOH', 'AMINJONZODA'],
           role: 'Information Security & SMM',
           desc: 'Надёжная защита данных и цифровой инфраструктуры.',
           contact: '+992885788000',

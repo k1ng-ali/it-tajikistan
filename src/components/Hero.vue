@@ -8,6 +8,14 @@ import logo from "../assets/Logo.svg";
 
 let mm; // MatchMedia instance
 
+const scrollTo = (el) => {
+  gsap.to(window, {
+    scrollTo: el,
+    duration: 1,
+    ease: 'power2.out'
+  })
+}
+
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -216,7 +224,7 @@ const rotateY = computed(() => {
         Мы — команда молодых IT-специалистов из Таджикистана.
         Создаём веб-продукты, автоматизируем процессы, защищаем данные и строим надёжную инфраструктуру.
       </p>
-      <button class="hero-button">Связаться с нами</button>
+      <button class="hero-button" @click="scrollTo('.team')">Связаться с нами</button>
     </div>
   </div>
 </template>
